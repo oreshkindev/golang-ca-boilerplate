@@ -1,15 +1,15 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net/http"
 
-	"github.com/user/repository/conf"
+	"github.com/user/repository/config"
 	"github.com/user/repository/controller"
+	"github.com/user/repository/repository"
+	"github.com/user/repository/repository/postgres"
 	"github.com/user/repository/router"
-	"github.com/user/repository/service"
-	"github.com/user/repository/store"
+	"github.com/user/repository/usecase"
 )
 
 func main() {
@@ -19,44 +19,35 @@ func main() {
 }
 
 func run() error {
-	ctx := context.Background()
-
-	config, err := conf.New()
+	config, err := config.Load()
 	if err != nil {
 		return err
 	}
 
-	store, err := store.New(ctx, &config.Postgres)
+	postgres, err := postgres.Dial(config.Postgres)
 	if err != nil {
 		return err
 	}
 
-	serviceManager, err := service.NewManager(ctx, store)
+	repository, err := repository.NewManager(postgres)
 	if err != nil {
 		return err
 	}
 
-	postsController := controller.NewPostsController(ctx, serviceManager)
-	usersController := controller.NewUsersController(ctx, serviceManager)
-
-	router, err := router.NewRouter(ctx)
+	usecase, err := usecase.NewManager(repository)
 	if err != nil {
 		return err
 	}
 
-	// posts
-	router.Get("/v1/posts", postsController.Get)
-	router.Get("/v1/posts/{id}", postsController.GetBy)
-	router.Post("/v1/posts", postsController.Post)
-	router.Put("/v1/posts", postsController.Put)
-	router.Delete("/v1/posts/{id}", postsController.Delete)
+	controller, err := controller.NewManager(usecase)
+	if err != nil {
+		return err
+	}
 
-	// users
-	router.Get("/v1/users", usersController.Get)
-	router.Get("/v1/users/{id}", usersController.GetBy)
-	router.Post("/v1/users", usersController.Post)
-	router.Put("/v1/users", usersController.Put)
-	router.Delete("/v1/users/{id}", usersController.Delete)
+	router, err := router.NewRouter(controller)
+	if err != nil {
+		return err
+	}
 
 	return http.ListenAndServe(config.Port, router)
 }

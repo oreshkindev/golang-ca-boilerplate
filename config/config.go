@@ -1,4 +1,4 @@
-package conf
+package config
 
 import (
 	"log"
@@ -6,33 +6,26 @@ import (
 	"sync"
 )
 
-type Conf struct {
-	Host     string
-	Port     string
-	Source   string
-	Postgres Postgres
+type Config struct {
+	Host, Port string
+	Postgres   Postgres
 }
 
 type Postgres struct {
-	User string
-	Pass string
-	Host string
-	Port string
-	Name string
+	User, Pass, Host, Port, Name string
 }
 
 var (
-	config Conf
+	config Config
 	once   sync.Once
 )
 
-// Initializes a new Conf instance.
-func New() (*Conf, error) {
+// Initializes a new Config instance.
+func Load() (*Config, error) {
 	once.Do(func() {
-		config = Conf{
-			Host:   env("APP_HOST"),
-			Port:   env("APP_PORT"),
-			Source: env("APP_SOURCE"),
+		config = Config{
+			Host: env("APP_HOST"),
+			Port: env("APP_PORT"),
 			Postgres: Postgres{
 				User: env("DB_USER"),
 				Pass: env("DB_PASS"),
@@ -47,12 +40,10 @@ func New() (*Conf, error) {
 
 func env(key string) string {
 	value, ok := os.LookupEnv(key)
-
 	// If the variable was not set, return error.
 	if !ok {
 		log.Fatal("Could not load environment variable")
 	}
-
 	// Return the value of the variable.
 	return value
 }

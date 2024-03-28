@@ -1,25 +1,25 @@
 package router
 
 import (
-	"context"
+	"net/http"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
+	"github.com/user/repository/controller"
 )
 
 type Router struct {
 	*chi.Mux
 }
 
-func NewRouter(ctx context.Context) (*Router, error) {
+func NewRouter(controller *controller.Manager) (*Router, error) {
 	r := chi.NewRouter()
 
 	r.Use(cors.Handler(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders: []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token", "Signature"},
-		ExposedHeaders: []string{"Signature"},
+		AllowedHeaders: []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 	}))
 
 	/*
@@ -29,5 +29,17 @@ func NewRouter(ctx context.Context) (*Router, error) {
 
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
+	r.Route("/v1", func(r chi.Router) {
+		r.Mount("/posts", postsHandler(controller))
+	})
+
 	return &Router{r}, nil
+}
+
+func postsHandler(controller *controller.Manager) http.Handler {
+	r := chi.NewRouter()
+	r.Get("/", controller.Posts.Get)
+	r.Post("/", controller.Posts.Post)
+
+	return r
 }

@@ -1,14 +1,13 @@
-package store
+package postgres
 
 import (
-	"github.com/user/repository/model"
-	"github.com/user/repository/store/postgres"
+	"github.com/user/repository/entity"
+	"gorm.io/gorm"
 )
 
-func Migrate(db *postgres.DB) error {
+func Migrate(db *gorm.DB) error {
 	tables := []interface{}{
-		&model.Posts{},
-		&model.Users{},
+		&entity.Posts{},
 	}
 
 	if err := db.Migrator().DropTable(tables...); err != nil {
