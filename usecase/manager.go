@@ -6,8 +6,8 @@ type Manager struct {
 	Posts PostsUseCase
 }
 
-func NewManager(store *repository.Store) (*Manager, error) {
+func NewManager(repository *repository.Manager) (*Manager, error) {
 	return &Manager{
-		Posts: *NewPostsUseCase(&store.Posts),
+		Posts: *NewPostsUseCase(&repository.Posts),
 	}, nil
 }

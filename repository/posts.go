@@ -14,18 +14,18 @@ func NewPostsRepository(database *postgres.Database) *PostsRepository {
 }
 
 func (repository *PostsRepository) Get() ([]entity.Posts, error) {
-	mdl := []entity.Posts{}
+	entity := []entity.Posts{}
 
-	if r := repository.database.Find(&mdl); r.Error != nil {
+	if r := repository.database.Find(&entity); r.Error != nil {
 		return nil, r.Error
 	}
 
-	return mdl, nil
+	return entity, nil
 }
 
-func (repository *PostsRepository) Post(tmp *entity.Posts) (*entity.Posts, error) {
-	if r := repository.database.Save(&tmp); r.Error != nil {
+func (repository *PostsRepository) Post(entity *entity.Posts) (*entity.Posts, error) {
+	if r := repository.database.Save(&entity); r.Error != nil {
 		return nil, r.Error
 	}
-	return tmp, nil
+	return entity, nil
 }

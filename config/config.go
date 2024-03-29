@@ -12,7 +12,7 @@ type Config struct {
 }
 
 type Postgres struct {
-	User, Pass, Host, Port, Name string
+	Url string
 }
 
 var (
@@ -27,11 +27,7 @@ func Load() (*Config, error) {
 			Host: env("APP_HOST"),
 			Port: env("APP_PORT"),
 			Postgres: Postgres{
-				User: env("DB_USER"),
-				Pass: env("DB_PASS"),
-				Host: env("DB_HOST"),
-				Port: env("DB_PORT"),
-				Name: env("DB_NAME"),
+				Url: env("DB_URL"),
 			},
 		}
 	})

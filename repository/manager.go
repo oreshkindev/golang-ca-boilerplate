@@ -4,14 +4,12 @@ import (
 	"github.com/user/repository/repository/postgres"
 )
 
-type Store struct {
-	db    *postgres.Database
+type Manager struct {
 	Posts PostsRepository
 }
 
-func NewManager(db *postgres.Database) (*Store, error) {
-	return &Store{
-		db:    db,
-		Posts: *NewPostsRepository(db),
+func NewManager(postgres *postgres.Database) (*Manager, error) {
+	return &Manager{
+		Posts: *NewPostsRepository(postgres),
 	}, nil
 }

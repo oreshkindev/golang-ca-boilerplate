@@ -1,6 +1,8 @@
 package postgres
 
 import (
+	"sync"
+
 	"github.com/user/repository/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -10,17 +12,26 @@ type Database struct {
 	*gorm.DB
 }
 
-func Dial(config config.Postgres) (*Database, error) {
+var (
+	instance *Database
+	once     sync.Once
+)
 
-	conn, err := gorm.Open(postgres.Open("postgres://oresh:postgres@localhost:5432/postgres"))
-	if err != nil {
-		return nil, err
-	}
-	if conn != nil {
-		if err = Migrate(conn); err != nil {
+func Dial(config config.Postgres) (*Database, error) {
+	once.Do(func() {
+		conn, err := gorm.Open(postgres.Open(config.Url))
+		if err != nil {
+			return
+		}
+
+		instance = &Database{conn}
+	})
+
+	if instance != nil {
+		if err := Migrate(instance.DB); err != nil {
 			return nil, err
 		}
 	}
 
-	return &Database{conn}, nil
+	return instance, nil
 }

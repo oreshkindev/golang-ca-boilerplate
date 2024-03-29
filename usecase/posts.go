@@ -8,9 +8,9 @@ type PostsUseCase struct {
 	repository entity.PostsRepository
 }
 
-func NewPostsUseCase(r entity.PostsRepository) *PostsUseCase {
+func NewPostsUseCase(repository entity.PostsRepository) *PostsUseCase {
 	return &PostsUseCase{
-		repository: r,
+		repository: repository,
 	}
 }
 

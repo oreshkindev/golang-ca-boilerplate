@@ -8,8 +8,8 @@ type Manager struct {
 	Posts PostsController
 }
 
-func NewManager(store *usecase.Manager) (*Manager, error) {
+func NewManager(usecase *usecase.Manager) (*Manager, error) {
 	return &Manager{
-		Posts: *NewPostsController(&store.Posts),
+		Posts: *NewPostsController(&usecase.Posts),
 	}, nil
 }

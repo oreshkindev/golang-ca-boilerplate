@@ -13,9 +13,9 @@ type PostsController struct {
 	usecase entity.PostsUseCase
 }
 
-func NewPostsController(uc entity.PostsUseCase) *PostsController {
+func NewPostsController(usecase entity.PostsUseCase) *PostsController {
 	return &PostsController{
-		usecase: uc,
+		usecase: usecase,
 	}
 }
 
