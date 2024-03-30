@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"github.com/user/repository/usecase"
+	"github.com/oreshkindev/golang-ca-boilerplate/internal/usecase"
 )
 
 type Manager struct {

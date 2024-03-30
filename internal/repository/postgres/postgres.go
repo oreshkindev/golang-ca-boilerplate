@@ -3,7 +3,7 @@ package postgres
 import (
 	"sync"
 
-	"github.com/user/repository/config"
+	"github.com/oreshkindev/golang-ca-boilerplate/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

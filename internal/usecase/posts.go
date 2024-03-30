@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"github.com/user/repository/entity"
+	"github.com/oreshkindev/golang-ca-boilerplate/internal/entity"
 )
 
 type PostsUseCase struct {

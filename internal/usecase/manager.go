@@ -1,6 +1,6 @@
 package usecase
 
-import "github.com/user/repository/repository"
+import "github.com/oreshkindev/golang-ca-boilerplate/internal/repository"
 
 type Manager struct {
 	Posts PostsUseCase

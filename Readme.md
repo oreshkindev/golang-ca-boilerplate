@@ -1,1 +1,0 @@
-# Golang CA project boilerplate

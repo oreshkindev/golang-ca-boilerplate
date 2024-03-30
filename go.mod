@@ -1,4 +1,4 @@
-module github.com/user/repository
+module github.com/oreshkindev/golang-ca-boilerplate
 
 go 1.22.0
 

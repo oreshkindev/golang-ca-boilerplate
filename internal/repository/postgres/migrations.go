@@ -1,7 +1,7 @@
 package postgres
 
 import (
-	"github.com/user/repository/entity"
+	"github.com/oreshkindev/golang-ca-boilerplate/internal/entity"
 	"gorm.io/gorm"
 )
 

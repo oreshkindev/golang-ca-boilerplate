@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/user/repository/entity"
-	"github.com/user/repository/repository/postgres"
+	"github.com/oreshkindev/golang-ca-boilerplate/internal/entity"
+	"github.com/oreshkindev/golang-ca-boilerplate/internal/repository/postgres"
 )
 
 type PostsRepository struct {

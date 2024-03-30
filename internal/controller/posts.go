@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/user/repository/entity"
+	"github.com/oreshkindev/golang-ca-boilerplate/internal/entity"
 
 	"github.com/go-chi/render"
 )
@@ -34,7 +34,7 @@ func (controller *PostsController) Post(w http.ResponseWriter, r *http.Request) 
 
 	err := json.NewDecoder(r.Body).Decode(&entity)
 	if err != nil {
-		http.Error(w, "Invalid request", http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 

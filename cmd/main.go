@@ -4,12 +4,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/user/repository/config"
-	"github.com/user/repository/controller"
-	"github.com/user/repository/repository"
-	"github.com/user/repository/repository/postgres"
-	"github.com/user/repository/router"
-	"github.com/user/repository/usecase"
+	"github.com/oreshkindev/golang-ca-boilerplate/config"
+	"github.com/oreshkindev/golang-ca-boilerplate/internal/controller"
+	"github.com/oreshkindev/golang-ca-boilerplate/internal/controller/router"
+	"github.com/oreshkindev/golang-ca-boilerplate/internal/repository"
+	"github.com/oreshkindev/golang-ca-boilerplate/internal/repository/postgres"
+	"github.com/oreshkindev/golang-ca-boilerplate/internal/usecase"
 )
 
 func main() {
